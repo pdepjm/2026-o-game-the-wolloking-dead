@@ -1,0 +1,7 @@
+import wollok.game.*
+import laberinto.*
+
+program juego {
+    juegoLaberinto.iniciar()
+    game.start()
+}
