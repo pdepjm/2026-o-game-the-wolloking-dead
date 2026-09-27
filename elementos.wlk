@@ -1,8 +1,9 @@
 import wollok.game.*
+import jugador.*
 
 class Pared {
     var property position
-    method image() = "pared.png"
+    method image() = "transparente.png"
     
     // Invalida el movimiento hacia este casillero
     method esAtravesable() = false
@@ -15,7 +16,8 @@ class Salida {
     method esAtravesable() = true
     
     method interactuar(personaje) {
-        game.say(personaje, "¡Escape con exito del laberinto!")
-        game.schedule(1500, { game.stop() })
+        personaje.congelarPorVictoria()
+        game.addVisual(cartelGanaste)
+        game.schedule(2500, { game.stop() })
     }
 }

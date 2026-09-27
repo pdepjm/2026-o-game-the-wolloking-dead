@@ -4,10 +4,13 @@ object jugador {
     var property position = game.at(1, 1)
     var property vida = 100
     var property estaParalizado = false
+    var property gano = false
 
     method image() = "jugador.png"
 
     method intentarMover(direccion) {
+        if (!gano) {
+           
         if (estaParalizado) {
             estaParalizado = false
             game.say(self, "Me liberé del pegamento")
@@ -26,6 +29,7 @@ object jugador {
             elementosProximos.forEach({ obj => obj.interactuar(self) })
         }
         }
+        }
     }
 
     method reducirVida(cantidad) {
@@ -39,23 +43,23 @@ object jugador {
     method paralizar() {
         estaParalizado = true
     }
+    method congelarPorVictoria() {
+        gano = true
+    }
 }
 
 object hudVida {
     method position() = game.at(10, 9)
-
     method text() = "HP: " + jugador.vida().toString() + "/100 | " + if (jugador.estaParalizado()) "PARALIZADO" else "OK"
     method textColor() = "00FF00FF"
 }
 
 object cartelDerrota {
-    method position() = game.at(5, 6)
+    method position() = game.at(2, 2)
     method image() = "perdiste.png"
     
 }
 object cartelGanaste {
-    // Posición centrada en la grilla (x = 4, y = 6)
-    method position() = game.at(5, 6)
-    
+    method position() = game.at(1, 1)
     method image() = "ganaste.png"
 }
