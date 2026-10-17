@@ -12,8 +12,6 @@ object jugador {
         if (!gano) {
            
         if (estaParalizado) {
-            estaParalizado = false
-            game.say(self, "Me liberé del pegamento")
             return
         }
         else
@@ -42,6 +40,12 @@ object jugador {
 
     method paralizar() {
         estaParalizado = true
+        game.schedule(5000, { self.liberarDeParalisis() })
+    }
+
+    method liberarDeParalisis() {
+        estaParalizado = false
+        game.say(self, "Me liberé del pegamento")
     }
     method congelarPorVictoria() {
         gano = true

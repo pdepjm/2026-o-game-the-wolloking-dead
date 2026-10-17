@@ -1,34 +1,34 @@
 import wollok.game.*
 
-class TrampaPinchos {
+class Trampa {
     var property position
-    method image() = "trampaPinchos.png"
     method esAtravesable() = true
-    
-    method interactuar(personaje) {
+    method interactuar(personaje) {}
+}
+
+class TrampaPinchos inherits Trampa {
+    method image() = "trampaPinchos.png"
+
+    override method interactuar(personaje) {
         personaje.reducirVida(20)
         game.say(personaje, "¡Ay! Pinchos (-20 HP)")
     }
 }
 
-class TrampaPegamento {
-    var property position
+class TrampaPegamento inherits Trampa {
     method image() = "trampaDePegamento.png"
-    method esAtravesable() = true
-    
-    method interactuar(personaje) {
+
+    override method interactuar(personaje) {
         personaje.paralizar()
         game.say(personaje, "¡Trampa de pegamento!")
     }
 }
 
-class TrampaTeletransporte {
-    var property position
+class TrampaTeletransporte inherits Trampa {
     const destino
     method image() = "portal.png"
-    method esAtravesable() = true
-    
-    method interactuar(personaje) {
+
+    override method interactuar(personaje) {
         personaje.position(destino)
         game.say(personaje, "¡Teletransportado al inicio!")
     }
