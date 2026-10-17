@@ -6,6 +6,9 @@ object jugador {
     var property estaParalizado = false
     var property gano = false
 
+    // Esto permite que el Minotauro compruebe la posicion del jugador
+    method esAtravesable() = true
+
     method image() = "jugador.png"
 
     method intentarMover(direccion) {

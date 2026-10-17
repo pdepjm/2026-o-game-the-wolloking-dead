@@ -1,0 +1,24 @@
+import wollok.game.*
+import direcciones.*
+
+describe "Direcciones" {
+
+    test "arriba aumenta una unidad en Y" {
+        const posicion = new Posicion(x = 3, y = 5)
+
+        const nuevaPosicion = arriba.siguientePosicion(posicion)
+
+        assert.equals(3, nuevaPosicion.x())
+        assert.equals(6, nuevaPosicion.y())
+    }
+
+    test "izquierda disminuye una unidad en X" {
+        const posicion = new Posicion(x = 3, y = 5)
+
+        const nuevaPosicion = izquierda.siguientePosicion(posicion)
+
+        assert.equals(2, nuevaPosicion.x())
+        assert.equals(5, nuevaPosicion.y())
+    }
+
+}

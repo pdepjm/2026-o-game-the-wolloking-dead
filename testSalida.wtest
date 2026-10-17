@@ -1,0 +1,21 @@
+import wollok.game.*
+import elementos.*
+import jugador.*
+
+/* describe "Salida" {
+
+/*     test "la salida es atravesable" {
+        const salida = new Salida(position = game.at(10, 10))
+
+        assert.isTrue(salida.esAtravesable())
+    }
+
+    test "al interactuar con la salida el jugador gana" {
+        jugador.gano(false)
+
+        const salida = new Salida(position = game.at(10, 10))
+
+        salida.interactuar(jugador)
+
+        assert.isTrue(jugador.gano())
+    } */

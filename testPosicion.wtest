@@ -1,0 +1,26 @@
+import wollok.game.*
+import direcciones.*
+
+describe "Posicion" {
+
+    test "una posicion guarda correctamente su coordenada x" {
+        const posicion = new Posicion(x = 3, y = 5)
+
+        assert.equals(3, posicion.x())
+    }
+
+    test "una posicion guarda correctamente su coordenada y" {
+        const posicion = new Posicion(x = 3, y = 5)
+
+        assert.equals(5, posicion.y())
+    }
+
+    test "una posicion puede calcular su movimiento usando una direccion" {
+        const posicion = new Posicion(x = 3, y = 5)
+
+        const nuevaPosicion = posicion.mover(derecha)
+
+        assert.equals(4, nuevaPosicion.x())
+        assert.equals(5, nuevaPosicion.y())
+    }
+}

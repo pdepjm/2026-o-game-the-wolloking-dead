@@ -1,0 +1,21 @@
+import wollok.game.*
+import elementos.*
+
+describe "Pared" {
+
+/*     test "una pared no es atravesable" {
+        const pared = new Pared(position = game.at(3, 3))
+
+        assert.isFalse(pared.esAtravesable())
+    } */
+
+    test "una pared conserva su posicion" {
+        const posicion = game.at(3, 3)
+        const pared = new Pared(position = posicion)
+
+        assert.equals(posicion, pared.position())
+    }
+
+    
+}
+

@@ -1,0 +1,113 @@
+/* import wollok.game.*
+import jugador.*
+import trampas.*
+
+describe "Trampa de Pinchos" {
+
+    test "la trampa de pinchos es atravesable" {
+        const trampa = new TrampaPinchos(
+            position = game.at(3, 1)
+        )
+
+        assert.isTrue(trampa.esAtravesable())
+    }
+
+    test "la trampa de pinchos reduce 20 puntos de vida" {
+        jugador.vida(100)
+
+        const trampa = new TrampaPinchos(
+            position = game.at(3, 1)
+        )
+
+        trampa.interactuar(jugador)
+
+        assert.equals(80, jugador.vida())
+    }
+}
+
+describe "Trampa de Pegamento" {
+
+    test "la trampa de pegamento es atravesable" {
+        const trampa = new TrampaPegamento(
+            position = game.at(5, 2)
+        )
+
+        assert.isTrue(trampa.esAtravesable())
+    }
+
+    test "la trampa de pegamento paraliza al jugador" {
+        jugador.estaParalizado(false)
+
+        const trampa = new TrampaPegamento(
+            position = game.at(5, 2)
+        )
+
+        trampa.interactuar(jugador)
+
+        assert.isTrue(jugador.estaParalizado())
+    }
+
+    test "el jugador se libera de la paralizacion al intentar moverse" {
+        jugador.estaParalizado(true)
+        jugador.gano(false)
+
+        jugador.intentarMover(arriba)
+
+        assert.isFalse(jugador.estaParalizado())
+    }
+}
+
+describe "Trampa de Teletransporte" {
+
+    test "la trampa de teletransporte es atravesable" {
+        const trampa = new TrampaTeletransporte(
+            position = game.at(10, 1),
+            destino = game.at(1, 1)
+        )
+
+        assert.isTrue(trampa.esAtravesable())
+    }
+
+    test "la trampa teletransporta al jugador al destino" {
+        const posicionInicial = game.at(10, 1)
+        const destino = game.at(1, 1)
+
+        jugador.position(posicionInicial)
+
+        const trampa = new TrampaTeletransporte(
+            position = posicionInicial,
+            destino = destino
+        )
+
+        trampa.interactuar(jugador)
+
+        assert.equals(destino, jugador.position())
+    }
+}
+
+describe "Polimorfismo de las trampas" {
+
+    test "las trampas responden al mismo mensaje interactuar con comportamientos diferentes" {
+
+        jugador.vida(100)
+        jugador.estaParalizado(false)
+
+        const pinchos = new TrampaPinchos(
+            position = game.at(3, 1)
+        )
+
+        const pegamento = new TrampaPegamento(
+            position = game.at(5, 2)
+        )
+
+        pinchos.interactuar(jugador)
+
+        assert.equals(80, jugador.vida())
+
+        pegamento.interactuar(jugador)
+
+        assert.isTrue(jugador.estaParalizado())
+    }
+}
+
+ */

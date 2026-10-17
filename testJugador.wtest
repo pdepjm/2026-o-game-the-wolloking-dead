@@ -1,0 +1,45 @@
+import wollok.game.*
+import jugador.*
+import direcciones.*
+
+describe "Jugador" {
+
+    test "el jugador comienza con 100 de vida" {
+        jugador.vida(100)
+
+        assert.equals(100, jugador.vida())
+    }
+
+    test "el jugador puede perder vida" {
+        jugador.vida(100)
+
+        jugador.reducirVida(20)
+
+        assert.equals(80, jugador.vida())
+    }
+
+    test "la vida nunca puede ser menor que cero" {
+        jugador.vida(10)
+
+        jugador.reducirVida(30)
+
+        assert.equals(0, jugador.vida())
+    }
+
+/*     test "el jugador puede quedar paralizado" {
+        jugador.paralizar()
+
+        jugador.paralizar()
+
+        assert.isTrue(jugador.paralizar())
+    } */
+
+/*     test "el jugador puede liberarse al intentar moverse estando paralizado" {
+        jugador.estaParalizado(true)
+        jugador.gano(false)
+
+        jugador.intentarMover(arriba)
+
+        assert.isFalse(jugador.estaParalizado())
+    } */
+}
