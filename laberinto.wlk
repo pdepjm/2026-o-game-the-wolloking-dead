@@ -3,6 +3,7 @@ import direcciones.*
 import elementos.*
 import trampas.*
 import jugador.*
+import minotauro.*
 // Objeto para represent el fondo del tablero
 object fondo {
     method position() = game.at(0, 0)
@@ -22,6 +23,8 @@ object juegoLaberinto {
         self.colocarTrampasYObjetivos()
         game.addVisual(hudVida)
         game.addVisual(jugador)
+        game.addVisual(minotauro)
+        minotauro.iniciarPersecucion()
         self.configurarTeclas()
     }
 
