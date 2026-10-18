@@ -41,24 +41,20 @@ object juegoLaberinto {
 
         const paredesInternas = [
 
-            // paredes zona inferior (deja libres (1,1), (1,2), (2,1), (3,1))
-            game.at(2, 2), game.at(3, 2), game.at(4, 2), game.at(6, 1), game.at(7, 1), game.at(8, 1), game.at(9, 1),
-
             // pasillos intermedios inferiores
-            game.at(2, 4), game.at(3, 4), game.at(4, 4), game.at(6, 3), game.at(7, 3), game.at(8, 3), game.at(10, 3),
-            game.at(6, 4), game.at(8, 4), game.at(10, 4),
+           game.at(6, 4), game.at(7, 4), game.at(6,5), game.at(4,3), game.at(3,3), 
 
             // bloques zona central
-            game.at(1, 6), game.at(2, 6), game.at(4, 6), game.at(5, 6), game.at(6, 6), game.at(8, 6), game.at(9, 6),
+            game.at(1, 6), game.at(2, 6), game.at(4, 6), game.at(5, 6), game.at(6, 6),
             game.at(2, 5), game.at(4, 5), game.at(8, 5),
 
             // pasillos intermedios superiores
-            game.at(2, 8), game.at(3, 8), game.at(5, 8), game.at(6, 8), game.at(7, 8), game.at(9, 8), game.at(10, 8),
-            game.at(1, 7), game.at(3, 7), game.at(5, 7), game.at(7, 7), game.at(9, 7),
+             game.at(5, 8), game.at(6, 8), game.at(7, 8), game.at(9, 8), game.at(10, 8),
+            game.at(1, 7),  game.at(5, 7), game.at(7, 7), game.at(9, 7),
 
             // zona superior previa a la salida en (10, 10)
-            game.at(2, 10), game.at(3, 10), game.at(4, 10), game.at(6, 10), game.at(7, 10), game.at(8, 10),
-            game.at(2, 9), game.at(4, 9), game.at(6, 9), game.at(8, 9)
+            game.at(2, 10),  game.at(4, 10), game.at(6, 10), game.at(7, 10), game.at(8, 10),
+            game.at(4, 9), game.at(6, 9), game.at(8, 9)
 
         ]
         paredesInternas.forEach({ pos => game.addVisual(new Pared(position = pos)) })

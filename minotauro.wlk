@@ -4,7 +4,7 @@ import direcciones.*
 import estrategiaMinotauro.*
 
 object minotauro {
-    var property position = game.at(9, 9)
+    var property position = game.at(9, 3)
     const estrategia = merodeo
     const dano = 100
 
@@ -47,33 +47,32 @@ object minotauro {
 
     method mover() {
         self.merodear()
-        game.schedule(700, {
+        game.schedule(3000, {
             self.mover()
         })
     }
 
     method merodear() {
-        const direcciones = estrategia.direccionesAProbar()
-        var seMovio = false
-        var indiceElegido = 0
-
-        direcciones.forEach({ direccion =>
-            if (!seMovio) {
-                seMovio = self.intentarMoverEn(direccion)
-                if (seMovio) {
-                    estrategia.registrarMovimiento(indiceElegido)
-                } else {
-                    indiceElegido = indiceElegido + 1
-                }
-            }
-        })
-
-        if (!seMovio) {
-            estrategia.registrarMovimiento(1)
-        }
+        var seMovio = self.intentarMoverYRegistrar(estrategia.direccionPrincipal())
+        seMovio = if (seMovio) true
+            else self.intentarMoverYRegistrar(estrategia.direccionLateralPreferida())
+        seMovio = if (seMovio) true
+            else self.intentarMoverYRegistrar(estrategia.direccionLateralAlternativa())
+        seMovio = if (seMovio) true
+            else self.intentarMoverYRegistrar(estrategia.direccionOpuesta())
 
         if (self.estaEnLaMismaCasilla(jugador)) {
             self.atacarSiPuede(jugador)
+        }
+    }
+
+    method intentarMoverYRegistrar(direccion) {
+        const seMovio = self.intentarMoverEn(direccion)
+        if (seMovio) {
+            estrategia.registrarMovimiento(direccion)
+            return true
+        } else {
+            return false
         }
     }
 
@@ -88,7 +87,7 @@ object minotauro {
 
         if (proximaPosicion.x() <= 0 || proximaPosicion.x() >= 11 ||
             proximaPosicion.y() <= 0 || proximaPosicion.y() >= 11) {
-            false
+            return false
         } else {
             const destino = game.at(
                 proximaPosicion.x(),
@@ -103,9 +102,9 @@ object minotauro {
 
             if (!hayPared) {
                 position = destino
-                true
+                return true
             } else {
-                false
+                return false
             }
         }
     }

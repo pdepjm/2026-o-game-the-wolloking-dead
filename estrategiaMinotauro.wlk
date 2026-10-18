@@ -1,35 +1,49 @@
 import direcciones.*
 
 object merodeo {
-    var orientacion = 0
+    var orientacion = 1
+    var priorizarIzquierda = true
 
-    method direccionesAProbar() =
-        if (orientacion == 0) {
-            [arriba, derecha, izquierda, abajo]
-        } else if (orientacion == 1) {
-            [derecha, abajo, arriba, izquierda]
-        } else if (orientacion == 2) {
-            [abajo, izquierda, derecha, arriba]
+    method direccionPrincipal() = self.direccionSegun(orientacion)
+
+    method direccionLateralPreferida() =
+        if (priorizarIzquierda) {
+            self.direccionSegun(self.orientacionIzquierda())
         } else {
-            [izquierda, arriba, abajo, derecha]
+            self.direccionSegun(self.orientacionDerecha())
         }
 
-    method registrarMovimiento(indiceElegido) {
-        if (indiceElegido == 1) {
-            orientacion = orientacion + 1
-            if (orientacion == 4) {
-                orientacion = 0
-            }
-        } else if (indiceElegido == 2) {
-            orientacion = orientacion - 1
-            if (orientacion < 0) {
-                orientacion = 3
-            }
-        } else if (indiceElegido == 3) {
-            orientacion = orientacion + 2
-            if (orientacion > 3) {
-                orientacion = orientacion - 4
-            }
+    method direccionLateralAlternativa() =
+        if (priorizarIzquierda) {
+            self.direccionSegun(self.orientacionDerecha())
+        } else {
+            self.direccionSegun(self.orientacionIzquierda())
         }
+
+    method direccionOpuesta() =
+        self.direccionSegun(self.orientacionOpuesta())
+
+    method direccionSegun(unaOrientacion) =
+        if (unaOrientacion == 0) arriba
+        else if (unaOrientacion == 1) derecha
+        else if (unaOrientacion == 2) abajo
+        else izquierda
+
+    method orientacionIzquierda() =
+        if (orientacion == 0) 3 else orientacion - 1
+
+    method orientacionDerecha() =
+        if (orientacion == 3) 0 else orientacion + 1
+
+    method orientacionOpuesta() =
+        if (orientacion < 2) orientacion + 2
+        else orientacion - 2
+
+    method registrarMovimiento(direccion) {
+        const nuevaOrientacion = direccion.orientacion()
+        priorizarIzquierda =
+            if (nuevaOrientacion != orientacion) !priorizarIzquierda
+            else priorizarIzquierda
+        orientacion = nuevaOrientacion
     }
 }
