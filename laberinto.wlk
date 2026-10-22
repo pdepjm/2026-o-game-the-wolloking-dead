@@ -41,7 +41,7 @@ object juegoLaberinto {
 
         const paredesInternas = [
 
-            // pasillos intermedios inferiores
+             // pasillos intermedios inferiores
            game.at(6, 4), game.at(7, 4), game.at(6,5), game.at(4,3), game.at(3,3), 
 
             // bloques zona central
@@ -49,12 +49,13 @@ object juegoLaberinto {
             game.at(2, 5), game.at(4, 5), game.at(8, 5),
 
             // pasillos intermedios superiores
-            game.at(4,8), game.at(9, 8), game.at(10, 8),
-            game.at(1, 7),  game.at(9, 7),
+            game.at(4,8), game.at(9, 8), game.at(10,9),
+            game.at(1, 7),  game.at(9, 7), game.at(8,4), game.at(10,4),
 
             // zona superior previa a la salida en (10, 10)
             game.at(2, 10),  game.at(4, 10),
             game.at(4, 9)
+
 
         ]
         paredesInternas.forEach({ pos => game.addVisual(new Pared(position = pos)) })
