@@ -3,7 +3,7 @@ import wollok.game.*
 class Trampa {
     var property position
     method esAtravesable() = true
-    method interactuar(personaje) {}
+    method interactuar(personaje)
 }
 
 class TrampaPinchos inherits Trampa {
