@@ -47,7 +47,7 @@ object minotauro {
 
     method mover() {
         self.merodear()
-        game.schedule(3000, {
+        game.schedule(250, {
             self.mover()
         })
     }
