@@ -118,6 +118,7 @@ object juegoLaberinto {
         game.addVisual(jugador)
         game.addVisual(minotauro)
         self.cargarNivel()
+        game.addVisual(hudVida)
         minotauro.iniciarPersecucion()
         self.configurarTeclas()
     }
@@ -137,10 +138,6 @@ object juegoLaberinto {
         jugador.reiniciarNivel()
         minotauro.reiniciarNivel()
         self.dibujarMatriz(matrices.get(nivelActual - 1))
-        if (game.hasVisual(hudVida)) {
-            game.removeVisual(hudVida)
-        }
-        game.addVisual(hudVida)
     }
 
     method avanzarNivel() {

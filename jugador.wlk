@@ -70,7 +70,7 @@ object jugador {
 
     method paralizar() {
         estado = estadoPegado
-        game.schedule(5000, { self.liberarDeParalisis() })
+        game.schedule(3000, { self.liberarDeParalisis() })
     }
 
     method capturarPorMinotauro() {
