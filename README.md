@@ -1,5 +1,8 @@
-### [Nombre del juego]
+THE MAZE
 
-* Integrante 1
-* Integrante 2
-* Etc...
+* Alvarez Kalustian, Yahir   
+* Rizzo, Tiziano
+* Belotti, Delfina  
+* Mantiñan, Lucas  
+* Canchignia Troisi, Miguel Alejandro
+

@@ -1,0 +1,114 @@
+import wollok.game.*
+import jugador.*
+import direcciones.*
+
+describe "Pruebas del jugador" {
+
+    test "El jugador comienza en la posición inicial" {
+        assert.equals(game.at(1, 1), jugador.position())
+    }
+
+    test "El jugador comienza con 100 puntos de vida" {
+        assert.equals(100, jugador.vida())
+    }
+
+    test "El jugador comienza en estado libre" {
+        assert.equals(estadoLibre, jugador.estado())
+    }
+
+    test "El jugador es atravesable" {
+        assert.that(jugador.esAtravesable())
+    }
+
+    test "El jugador puede moverse a una casilla libre" {
+        jugador.position(game.at(3, 3))
+        jugador.estado(estadoLibre)
+
+        jugador.intentarMover(derecha)
+
+        assert.equals(game.at(4, 3), jugador.position())
+    }
+
+    test "El jugador no se mueve cuando está paralizado" {
+        jugador.position(game.at(3, 3))
+        jugador.estado(estadoPegado)
+
+        jugador.intentarMover(derecha)
+
+        assert.equals(game.at(3, 3), jugador.position())
+    }
+
+    test "El jugador no se mueve cuando está finalizado" {
+        jugador.position(game.at(3, 3))
+        jugador.estado(estadoFinalizado)
+
+        jugador.intentarMover(derecha)
+
+        assert.equals(game.at(3, 3), jugador.position())
+    }
+
+    test "El jugador pierde vida al recibir daño" {
+        jugador.vida(100)
+
+        jugador.reducirVida(20)
+
+        assert.equals(80, jugador.vida())
+    }
+
+    test "La vida del jugador no puede ser negativa" {
+        jugador.vida(30)
+
+        jugador.reducirVida(50)
+
+        assert.equals(0, jugador.vida())
+    }
+
+    test "El jugador puede quedar paralizado" {
+        jugador.estado(estadoLibre)
+
+        jugador.paralizar()
+
+        assert.equals(estadoPegado, jugador.estado())
+        assert.that(jugador.estaParalizado())
+    }
+
+    test "El jugador puede liberarse de la parálisis" {
+        jugador.estado(estadoPegado)
+
+        jugador.liberarDeParalisis()
+
+        assert.equals(estadoLibre, jugador.estado())
+        assert.that(!jugador.estaParalizado())
+    }
+
+    test "El jugador puede ser capturado por el Minotauro" {
+        jugador.estado(estadoLibre)
+
+        jugador.capturarPorMinotauro()
+
+        assert.equals(estadoFinalizado, jugador.estado())
+    }
+
+    test "El jugador puede quedar finalizado por victoria" {
+        jugador.estado(estadoLibre)
+
+        jugador.congelarPorVictoria()
+
+        assert.equals(estadoFinalizado, jugador.estado())
+    }
+
+    test "El HUD muestra la vida y el estado del jugador" {
+        jugador.vida(75)
+        jugador.estado(estadoLibre)
+
+        assert.equals("VIDA 75/100 | LIBRE", hudVida.text())
+    }
+
+    test "El cartel de derrota es atravesable" {
+        assert.that(cartelDerrota.esAtravesable())
+    }
+
+    test "El cartel de victoria es atravesable" {
+        assert.that(cartelGanaste.esAtravesable())
+    }
+}

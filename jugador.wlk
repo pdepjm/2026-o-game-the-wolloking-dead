@@ -85,10 +85,15 @@ object jugador {
     method congelarPorVictoria() {
         estado = estadoFinalizado
     }
+
+    method reiniciarNivel() {
+        position = game.at(1, 1)
+        estado = estadoLibre
+    }
 }
 
 object hudVida {
-    method position() = game.at(10, 9)
+    method position() = game.at(1, 11)
     method esAtravesable() = true
     method text() = "VIDA " + jugador.vida().toString() + "/100 | " + jugador.estado().nombre()
     method textColor() =

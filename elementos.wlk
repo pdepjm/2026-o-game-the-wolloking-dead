@@ -3,7 +3,7 @@ import jugador.*
 
 class Pared {
     var property position
-    method image() = "transparente.png"
+    method image() = "pared.jpg"
     
     // Invalida el movimiento hacia este casillero
     method esAtravesable() = false
@@ -12,12 +12,13 @@ class Pared {
 
 class Salida {
     var property position
+    const accionVictoria
+
     method image() = "puerta.png"
     method esAtravesable() = true
     
     method interactuar(personaje) {
         personaje.congelarPorVictoria()
-        game.addVisual(cartelGanaste)
-        game.schedule(2500, { game.stop() })
+        accionVictoria.apply()
     }
 }

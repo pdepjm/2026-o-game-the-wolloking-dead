@@ -1,0 +1,62 @@
+import trampas.*
+import jugador.*
+
+describe "Pruebas de trampas" {
+
+    test "La trampa común es atravesable" {
+        const trampa = new Trampa(position = game.at(2, 2))
+
+        assert.that(trampa.esAtravesable())
+    }
+
+    test "La trampa de pinchos es atravesable" {
+        const trampa = new TrampaPinchos(position = game.at(2, 2))
+
+        assert.that(trampa.esAtravesable())
+    }
+
+    test "La trampa de pegamento es atravesable" {
+        const trampa = new TrampaPegamento(position = game.at(2, 2))
+
+        assert.that(trampa.esAtravesable())
+    }
+
+    test "La trampa de teletransporte es atravesable" {
+        const trampa = new TrampaTeletransporte(
+            position = game.at(2, 2),
+            destino = game.at(1, 1)
+        )
+
+        assert.that(trampa.esAtravesable())
+    }
+
+    test "La trampa de pinchos reduce 20 puntos de vida" {
+        const trampa = new TrampaPinchos(position = game.at(2, 2))
+        jugador.vida(100)
+
+        trampa.interactuar(jugador)
+
+        assert.equals(80, jugador.vida())
+    }
+
+    test "La trampa de pegamento paraliza al jugador" {
+        const trampa = new TrampaPegamento(position = game.at(2, 2))
+        jugador.estado(estadoLibre)
+
+        trampa.interactuar(jugador)
+
+        assert.equals(estadoPegado, jugador.estado())
+    }
+
+    test "La trampa de teletransporte cambia la posición del jugador" {
+        const destino = game.at(1, 1)
+        const trampa = new TrampaTeletransporte(
+            position = game.at(5, 5),
+            destino = destino
+        )
+
+        trampa.interactuar(jugador)
+
+        assert.equals(destino, jugador.position())
+    }
+}

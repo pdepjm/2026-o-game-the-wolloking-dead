@@ -1,0 +1,22 @@
+import estrategiaMinotauro.*
+import direcciones.*
+
+describe "estrategia de merodeo" {
+
+    test "usa orientaciones en texto, ordena direcciones y alterna la preferencia" {
+        assert.equals("arriba", arriba.orientacion())
+        assert.equals("derecha", derecha.orientacion())
+
+        assert.equals(
+            [derecha, arriba, abajo, izquierda],
+            merodeo.direccionesAIntentar()
+        )
+
+        merodeo.registrarMovimiento(arriba)
+
+        assert.equals(
+            [arriba, derecha, izquierda, abajo],
+            merodeo.direccionesAIntentar()
+        )
+    }
+}

@@ -3,11 +3,13 @@ import wollok.game.*
 class Trampa {
     var property position
     method esAtravesable() = true
+    method imagen() = "trampa.png"
+    method image() = self.imagen()
     method interactuar(personaje) {}
 }
 
 class TrampaPinchos inherits Trampa {
-    method image() = "trampaPinchos.png"
+    override method imagen() = "trampaPinchos.png"
 
     override method interactuar(personaje) {
         personaje.reducirVida(20)
@@ -16,7 +18,7 @@ class TrampaPinchos inherits Trampa {
 }
 
 class TrampaPegamento inherits Trampa {
-    method image() = "trampaDePegamento.png"
+    override method imagen() = "trampaDePegamento.png"
 
     override method interactuar(personaje) {
         personaje.paralizar()
@@ -26,7 +28,7 @@ class TrampaPegamento inherits Trampa {
 
 class TrampaTeletransporte inherits Trampa {
     const destino
-    method image() = "portal.png"
+    override method imagen() = "portal.png"
 
     override method interactuar(personaje) {
         personaje.position(destino)

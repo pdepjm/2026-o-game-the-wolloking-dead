@@ -4,13 +4,98 @@ import elementos.*
 import trampas.*
 import jugador.*
 import minotauro.*
-// Objeto para represent el fondo del tablero
+
 object fondo {
+    var property imagen = "fondo.jpg.jpg"
+
     method position() = game.at(0, 0)
-    // Nombre del archivo de imagen (debe estar guardado en la carpeta del proyecto)
-    method image() = "fondoLaberinto.png"
+    method image() = imagen
 }
+
+object tituloInicio {
+    var property imagen = "PantallaInicio.jpg"
+
+    method position() = game.at(0, 0)
+    method image() = imagen
+}
+
 object juegoLaberinto {
+    var partidaIniciada = false
+    var property nivelActual = 1
+    var elementosDelNivel = []
+
+    const property matrices = [
+        [
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 5, 1],
+            [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1],
+            [1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1],
+            [1, 1, 0, 1, 1, 0, 1, 4, 1, 0, 1, 1],
+            [1, 1, 4, 0, 0, 0, 0, 2, 0, 0, 1, 1],
+            [1, 1, 1, 1, 1, 3, 1, 1, 1, 2, 1, 1],
+            [1, 1, 1, 4, 1, 3, 1, 1, 1, 0, 1, 1],
+            [1, 0, 0, 3, 0, 0, 0, 0, 0, 0, 1, 1],
+            [1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1],
+            [1, 0, 0, 0, 0, 0, 1, 4, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+        ],
+        [
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 5, 1],
+            [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [1, 1, 1, 0, 1, 1, 1, 1, 1, 3, 0, 1],
+            [1, 1, 4, 0, 1, 4, 1, 1, 1, 0, 1, 1],
+            [1, 1, 1, 2, 0, 0, 0, 0, 0, 0, 1, 1],
+            [1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1],
+            [1, 0, 0, 0, 2, 3, 0, 0, 0, 0, 1, 1],
+            [1, 0, 1, 0, 0, 1, 0, 1, 4, 1, 1, 1],
+            [1, 0, 1, 0, 1, 1, 4, 1, 1, 1, 1, 1],
+            [1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+        ],
+        [
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 4, 0, 5, 1],
+            [1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1],
+            [1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 3, 1, 2, 0, 1],
+            [1, 1, 1, 1, 1, 1, 4, 2, 1, 0, 1, 1],
+            [1, 0, 0, 0, 0, 0, 0, 3, 3, 0, 1, 1],
+            [1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1],
+            [1, 0, 1, 4, 1, 1, 1, 0, 1, 1, 1, 1],
+            [1, 0, 1, 4, 1, 1, 1, 0, 1, 1, 1, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+        ],
+        [
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 5, 1],
+            [1, 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [1, 1, 1, 1, 0, 1, 1, 4, 1, 0, 1, 1],
+            [1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1],
+            [1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1],
+            [1, 1, 0, 1, 0, 1, 2, 4, 1, 3, 1, 1],
+            [1, 1, 1, 1, 0, 1, 1, 4, 1, 0, 1, 1],
+            [1, 0, 0, 0, 2, 0, 3, 0, 0, 0, 1, 1],
+            [1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1],
+            [1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+        ],
+        [
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 4, 0, 5, 1],
+            [1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1],
+            [1, 1, 4, 1, 1, 1, 3, 1, 1, 2, 0, 1],
+            [1, 1, 0, 1, 1, 1, 2, 1, 1, 0, 1, 1],
+            [1, 0, 0, 3, 0, 0, 0, 0, 0, 0, 1, 1],
+            [1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1],
+            [1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1],
+            [1, 0, 1, 1, 1, 1, 0, 4, 1, 1, 1, 1],
+            [1, 0, 1, 4, 1, 1, 0, 1, 1, 1, 1, 1],
+            [1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+        ]
+    ]
 
     method iniciar() {
         game.title("THE MAZE")
@@ -19,68 +104,95 @@ object juegoLaberinto {
         game.cellSize(50)
 
         game.addVisual(fondo)
-        self.construirParedes()
-        self.colocarTrampasYObjetivos()
-        game.addVisual(hudVida)
+        game.addVisual(tituloInicio)
+        game.onClickDo({ posicion =>
+            if (!partidaIniciada && posicion.y() == 3 && posicion.x() >= 5 && posicion.x() <= 8) {
+                self.comenzar()
+            }
+        })
+    }
+
+    method comenzar() {
+        partidaIniciada = true
+        game.removeVisual(tituloInicio)
         game.addVisual(jugador)
         game.addVisual(minotauro)
+        self.cargarNivel()
         minotauro.iniciarPersecucion()
         self.configurarTeclas()
     }
 
-    method construirParedes() {
-        // marco exterior
-        (0..9).forEach({ x => 
-            game.addVisual(new Pared(position = game.at(x, 0)))
-            game.addVisual(new Pared(position = game.at(x, 11)))
+    method cargarNivel() {
+        elementosDelNivel.forEach({ elemento =>
+            if (game.hasVisual(elemento)) {
+                game.removeVisual(elemento)
+            }
         })
-        (1..5).forEach({ y => 
-            game.addVisual(new Pared(position = game.at(0, y)))
-            game.addVisual(new Pared(position = game.at(11, y)))
-        })
+        elementosDelNivel = []
 
-        const paredesInternas = [
+        if (game.hasVisual(cartelGanaste)) {
+            game.removeVisual(cartelGanaste)
+        }
 
-            // pasillos intermedios inferiores
-           game.at(6, 4), game.at(7, 4), game.at(6,5), game.at(4,3), game.at(3,3), 
-
-            // bloques zona central
-            game.at(1, 6), game.at(2, 6), game.at(4, 6), game.at(6, 6),
-            game.at(2, 5), game.at(4, 5), game.at(8, 5),
-
-            // pasillos intermedios superiores
-            game.at(4,8), game.at(9, 8), game.at(10, 8),
-            game.at(1, 7),  game.at(9, 7),
-
-            // zona superior previa a la salida en (10, 10)
-            game.at(2, 10),  game.at(4, 10),
-            game.at(4, 9)
-
-        ]
-        paredesInternas.forEach({ pos => game.addVisual(new Pared(position = pos)) })
+        jugador.reiniciarNivel()
+        minotauro.reiniciarNivel()
+        self.dibujarMatriz(matrices.get(nivelActual - 1))
+        if (game.hasVisual(hudVida)) {
+            game.removeVisual(hudVida)
+        }
+        game.addVisual(hudVida)
     }
 
-    method colocarTrampasYObjetivos() {
-        // salida ubicada al final del recorrido
-        game.addVisual(new Salida(position = game.at(10, 10)))
-
-       // --- TRAMPAS DE PINCHOS (-20 HP) en puntos clave obligatorios/estrechos ---
-       game.addVisual(new TrampaPinchos(position = game.at(3, 1)))
-        game.addVisual(new TrampaPinchos(position = game.at(5, 4)))
-        game.addVisual(new TrampaPinchos(position = game.at(7, 6)))
-        game.addVisual(new TrampaPinchos(position = game.at(3, 9)))
-
-        // --- TRAMPAS DE PEGAMENTO (Inmovilizan) en intersecciones engañosas ---
-       game.addVisual(new TrampaPegamento(position = game.at(5, 2)))
-        game.addVisual(new TrampaPegamento(position = game.at(1, 8)))
-        game.addVisual(new TrampaPegamento(position = game.at(9, 5)))
-
-        // --- TRAMPAS DE TELETRANSPORTE en falsas salidas y al final del camino equivocado ---
-        // Si el jugador toma el pasillo equivocado cerca del final (4, 10) o (9, 9), vuelve al inicio (1, 1)
-       game.addVisual(new TrampaTeletransporte(position = game.at(10, 1), destino = game.at(1, 1)))
-        game.addVisual(new TrampaTeletransporte(position = game.at(1, 10), destino = game.at(1, 1)))
-        game.addVisual(new TrampaTeletransporte(position = game.at(7, 9), destino = game.at(1, 1)))
+    method avanzarNivel() {
+        if (nivelActual < matrices.size()) {
+            nivelActual = nivelActual + 1
+            self.cargarNivel()
+            game.say(jugador, "Nivel " + nivelActual.toString())
+        } else {
+            game.addVisual(cartelGanaste)
+            game.say(jugador, "¡Completaste todos los niveles!")
+            game.schedule(1500, {
+                game.stop()
+            })
+        }
     }
+
+    method dibujarMatriz(matriz) {
+        (0..11).forEach({ indiceFila =>
+            const y = 11 - indiceFila
+            const fila = matriz.get(indiceFila)
+            (0..11).forEach({ x =>
+                self.agregarElemento(fila.get(x), x, y)
+            })
+        })
+    }
+
+    method agregarElemento(tipo, x, y) {
+        const posicion = game.at(x, y)
+        if (tipo == 1) {
+            self.agregarVisualDelNivel(new Pared(position = posicion))
+        } else if (tipo == 2) {
+            self.agregarVisualDelNivel(new TrampaPegamento(position = posicion))
+        } else if (tipo == 3) {
+            self.agregarVisualDelNivel(new TrampaPinchos(position = posicion))
+        } else if (tipo == 4) {
+            self.agregarVisualDelNivel(new TrampaTeletransporte(
+                position = posicion,
+                destino = game.at(1, 1)
+            ))
+        } else if (tipo == 5) {
+            self.agregarVisualDelNivel(new Salida(
+                position = posicion,
+                accionVictoria = { self.avanzarNivel() }
+            ))
+        }
+    }
+
+    method agregarVisualDelNivel(elemento) {
+        elementosDelNivel.add(elemento)
+        game.addVisual(elemento)
+    }
+
     method configurarTeclas() {
         keyboard.up().onPressDo({ jugador.intentarMover(arriba) })
         keyboard.down().onPressDo({ jugador.intentarMover(abajo) })

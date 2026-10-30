@@ -6,21 +6,21 @@ class Posicion {
 }
 
 object arriba {
-    method orientacion() = 0
+    method orientacion() = "arriba"
     method siguientePosicion(pos) = new Posicion(x = pos.x(), y = pos.y() + 1)
 }
 
 object abajo {
-    method orientacion() = 2
+    method orientacion() = "abajo"
     method siguientePosicion(pos) = new Posicion(x = pos.x(), y = pos.y() - 1)
 }
 
 object izquierda {
-    method orientacion() = 3
+    method orientacion() = "izquierda"
     method siguientePosicion(pos) = new Posicion(x = pos.x() - 1, y = pos.y())
 }
 
 object derecha {
-    method orientacion() = 1
+    method orientacion() = "derecha"
     method siguientePosicion(pos) = new Posicion(x = pos.x() + 1, y = pos.y())
 }

@@ -1,7 +1,7 @@
 import direcciones.*
 
 object merodeo {
-    var orientacion = 1
+    var orientacion = "derecha"
     var priorizarIzquierda = true
 
     method direccionPrincipal() = self.direccionSegun(orientacion)
@@ -23,21 +23,36 @@ object merodeo {
     method direccionOpuesta() =
         self.direccionSegun(self.orientacionOpuesta())
 
+    method direccionesAIntentar() = [
+        self.direccionPrincipal(),
+        self.direccionLateralPreferida(),
+        self.direccionLateralAlternativa(),
+        self.direccionOpuesta()
+    ]
+
     method direccionSegun(unaOrientacion) =
-        if (unaOrientacion == 0) arriba
-        else if (unaOrientacion == 1) derecha
-        else if (unaOrientacion == 2) abajo
+        if (unaOrientacion == "arriba") arriba
+        else if (unaOrientacion == "derecha") derecha
+        else if (unaOrientacion == "abajo") abajo
         else izquierda
 
     method orientacionIzquierda() =
-        if (orientacion == 0) 3 else orientacion - 1
+        if (orientacion == "arriba") "izquierda"
+        else if (orientacion == "izquierda") "abajo"
+        else if (orientacion == "abajo") "derecha"
+        else "arriba"
 
     method orientacionDerecha() =
-        if (orientacion == 3) 0 else orientacion + 1
+        if (orientacion == "arriba") "derecha"
+        else if (orientacion == "derecha") "abajo"
+        else if (orientacion == "abajo") "izquierda"
+        else "arriba"
 
     method orientacionOpuesta() =
-        if (orientacion < 2) orientacion + 2
-        else orientacion - 2
+        if (orientacion == "arriba") "abajo"
+        else if (orientacion == "derecha") "izquierda"
+        else if (orientacion == "abajo") "arriba"
+        else "derecha"
 
     method registrarMovimiento(direccion) {
         const nuevaOrientacion = direccion.orientacion()
@@ -45,5 +60,10 @@ object merodeo {
             if (nuevaOrientacion != orientacion) !priorizarIzquierda
             else priorizarIzquierda
         orientacion = nuevaOrientacion
+    }
+
+    method reiniciar() {
+        orientacion = "derecha"
+        priorizarIzquierda = true
     }
 }

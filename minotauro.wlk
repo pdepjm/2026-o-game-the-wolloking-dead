@@ -4,7 +4,7 @@ import direcciones.*
 import estrategiaMinotauro.*
 
 object minotauro {
-    var property position = game.at(9, 3)
+    var property position = game.at(9, 6)
     const estrategia = merodeo
     const dano = 100
 
@@ -13,11 +13,6 @@ object minotauro {
     method image() = "minotauro.png"
 
     method esAtravesable() = true
-
-    method estaEnLaMismaCasilla(personaje) {
-        return position.x() == personaje.position().x() &&
-        position.y() == personaje.position().y()
-    }
 
     method interactuar(personaje) {
         self.atacarSiPuede(personaje)
@@ -47,23 +42,19 @@ object minotauro {
 
     method mover() {
         self.merodear()
-        game.schedule(3000, {
+        game.schedule(300, {
             self.mover()
         })
     }
 
     method merodear() {
-        var seMovio = self.intentarMoverYRegistrar(estrategia.direccionPrincipal())
-        seMovio = if (seMovio) true
-            else self.intentarMoverYRegistrar(estrategia.direccionLateralPreferida())
-        seMovio = if (seMovio) true
-            else self.intentarMoverYRegistrar(estrategia.direccionLateralAlternativa())
-        seMovio = if (seMovio) true
-            else self.intentarMoverYRegistrar(estrategia.direccionOpuesta())
+        var seMovio = false
+        estrategia.direccionesAIntentar().forEach({ direccion =>
+            if (!seMovio) {
+                seMovio = self.intentarMoverYRegistrar(direccion)
+            }
+        })
 
-        if (self.estaEnLaMismaCasilla(jugador)) {
-            self.atacarSiPuede(jugador)
-        }
     }
 
     method intentarMoverYRegistrar(direccion) {
@@ -110,8 +101,19 @@ object minotauro {
     }
 
     method iniciarPersecucion() {
+        game.onCollideDo(self, { objeto =>
+            if (objeto.identity() == jugador.identity()) {
+                self.interactuar(objeto)
+            }
+        })
         game.schedule(700, {
             self.mover()
         })
+    }
+
+    method reiniciarNivel() {
+        position = game.at(9, 6)
+        estrategia.reiniciar()
+        self.habilitarAtaque()
     }
 }
