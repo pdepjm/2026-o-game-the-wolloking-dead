@@ -1,0 +1,99 @@
+import wollok.game.*
+import minotauro.*
+import jugador.*
+import direcciones.*
+import estrategiaMinotauro.*
+
+describe "Pruebas del Minotauro" {
+
+    test "El Minotauro puede moverse hacia la derecha" {
+        minotauro.position(game.at(5, 5))
+
+        const seMovio = minotauro.intentarMoverEn(derecha)
+
+        assert.that(seMovio)
+        assert.equals(game.at(6, 5), minotauro.position())
+    }
+
+    test "El Minotauro puede moverse hacia la izquierda" {
+        minotauro.position(game.at(5, 5))
+
+        const seMovio = minotauro.intentarMoverEn(izquierda)
+
+        assert.that(seMovio)
+        assert.equals(game.at(4, 5), minotauro.position())
+    }
+
+    test "El Minotauro puede moverse hacia arriba" {
+        minotauro.position(game.at(5, 5))
+
+        const seMovio = minotauro.intentarMoverEn(arriba)
+
+        assert.that(seMovio)
+        assert.equals(game.at(5, 6), minotauro.position())
+    }
+
+    test "El Minotauro puede moverse hacia abajo" {
+        minotauro.position(game.at(5, 5))
+
+        const seMovio = minotauro.intentarMoverEn(abajo)
+
+        assert.that(seMovio)
+        assert.equals(game.at(5, 4), minotauro.position())
+    }
+
+    test "El Minotauro no puede salir del límite derecho" {
+        minotauro.position(game.at(10, 5))
+
+        const seMovio = minotauro.intentarMoverEn(derecha)
+
+        assert.notThat(seMovio)
+        assert.equals(game.at(10, 5), minotauro.position())
+    }
+
+    test "El Minotauro no puede salir del límite izquierdo" {
+        minotauro.position(game.at(1, 5))
+
+        const seMovio = minotauro.intentarMoverEn(izquierda)
+
+        assert.notThat(seMovio)
+        assert.equals(game.at(1, 5), minotauro.position())
+    }
+
+    test "El Minotauro no puede salir del límite superior" {
+        minotauro.position(game.at(5, 10))
+
+        const seMovio = minotauro.intentarMoverEn(arriba)
+
+        assert.notThat(seMovio)
+        assert.equals(game.at(5, 10), minotauro.position())
+    }
+
+    test "El Minotauro no puede salir del límite inferior" {
+        minotauro.position(game.at(5, 1))
+
+        const seMovio = minotauro.intentarMoverEn(abajo)
+
+        assert.notThat(seMovio)
+        assert.equals(game.at(5, 1), minotauro.position())
+    }
+
+    test "El Minotauro es atravesable" {
+        assert.that(minotauro.esAtravesable())
+    }
+
+    test "El Minotauro tiene la imagen correspondiente" {
+        assert.equals("minotauro.png", minotauro.image())
+    }
+
+    test "El Minotauro ataca al jugador y le quita 100 puntos de vida" {
+        jugador.vida(200)
+        jugador.estado(estadoLibre)
+
+        minotauro.habilitarAtaque()
+        minotauro.atacarSiPuede(jugador)
+
+        assert.equals(100, jugador.vida())
+        assert.equals(estadoFinalizado, jugador.estado())
+    }
+}
