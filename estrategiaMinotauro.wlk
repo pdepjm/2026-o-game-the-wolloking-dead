@@ -1,27 +1,34 @@
 import direcciones.*
 
-object merodeo {
-    var orientacion = "derecha"
-    var priorizarIzquierda = true
+object preferenciaIzquierda {
+    method lateralPreferida(direccion) = direccion.aLaIzquierda()
+    method lateralAlternativa(direccion) = direccion.aLaDerecha()
+    method invertida() = preferenciaDerecha
+    method priorizaIzquierda() = true
+}
 
-    method direccionPrincipal() = self.direccionSegun(orientacion)
+object preferenciaDerecha {
+    method lateralPreferida(direccion) = direccion.aLaDerecha()
+    method lateralAlternativa(direccion) = direccion.aLaIzquierda()
+    method invertida() = preferenciaIzquierda
+    method priorizaIzquierda() = false
+}
+
+object merodeo {
+    var direccionActual = derecha
+    var preferenciaLateral = preferenciaIzquierda
+
+    method priorizarIzquierda() = preferenciaLateral.priorizaIzquierda()
+
+    method direccionPrincipal() = direccionActual
 
     method direccionLateralPreferida() =
-        if (priorizarIzquierda) {
-            self.direccionSegun(self.orientacionIzquierda())
-        } else {
-            self.direccionSegun(self.orientacionDerecha())
-        }
+        preferenciaLateral.lateralPreferida(direccionActual)
 
     method direccionLateralAlternativa() =
-        if (priorizarIzquierda) {
-            self.direccionSegun(self.orientacionDerecha())
-        } else {
-            self.direccionSegun(self.orientacionIzquierda())
-        }
+        preferenciaLateral.lateralAlternativa(direccionActual)
 
-    method direccionOpuesta() =
-        self.direccionSegun(self.orientacionOpuesta())
+    method direccionOpuesta() = direccionActual.opuesta()
 
     method direccionesAIntentar() = [
         self.direccionPrincipal(),
@@ -30,40 +37,15 @@ object merodeo {
         self.direccionOpuesta()
     ]
 
-    method direccionSegun(unaOrientacion) =
-        if (unaOrientacion == "arriba") arriba
-        else if (unaOrientacion == "derecha") derecha
-        else if (unaOrientacion == "abajo") abajo
-        else izquierda
-
-    method orientacionIzquierda() =
-        if (orientacion == "arriba") "izquierda"
-        else if (orientacion == "izquierda") "abajo"
-        else if (orientacion == "abajo") "derecha"
-        else "arriba"
-
-    method orientacionDerecha() =
-        if (orientacion == "arriba") "derecha"
-        else if (orientacion == "derecha") "abajo"
-        else if (orientacion == "abajo") "izquierda"
-        else "arriba"
-
-    method orientacionOpuesta() =
-        if (orientacion == "arriba") "abajo"
-        else if (orientacion == "derecha") "izquierda"
-        else if (orientacion == "abajo") "arriba"
-        else "derecha"
-
     method registrarMovimiento(direccion) {
-        const nuevaOrientacion = direccion.orientacion()
-        priorizarIzquierda =
-            if (nuevaOrientacion != orientacion) !priorizarIzquierda
-            else priorizarIzquierda
-        orientacion = nuevaOrientacion
+        if (direccion != direccionActual) {
+            preferenciaLateral = preferenciaLateral.invertida()
+        }
+        direccionActual = direccion
     }
 
     method reiniciar() {
-        orientacion = "derecha"
-        priorizarIzquierda = true
+        direccionActual = derecha
+        preferenciaLateral = preferenciaIzquierda
     }
 }

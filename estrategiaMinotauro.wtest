@@ -3,9 +3,21 @@ import direcciones.*
 
 describe "estrategia de merodeo" {
 
-    test "usa orientaciones en texto, ordena direcciones y alterna la preferencia" {
-        assert.equals("arriba", arriba.orientacion())
-        assert.equals("derecha", derecha.orientacion())
+    test "ordena direcciones, rota sin textos y alterna la preferencia" {
+        merodeo.reiniciar()
+
+        assert.equals(izquierda, arriba.aLaIzquierda())
+        assert.equals(derecha, arriba.aLaDerecha())
+        assert.equals(abajo, arriba.opuesta())
+        assert.equals(derecha, abajo.aLaIzquierda())
+        assert.equals(izquierda, abajo.aLaDerecha())
+        assert.equals(arriba, abajo.opuesta())
+        assert.equals(abajo, izquierda.aLaIzquierda())
+        assert.equals(arriba, izquierda.aLaDerecha())
+        assert.equals(derecha, izquierda.opuesta())
+        assert.equals(arriba, derecha.aLaIzquierda())
+        assert.equals(abajo, derecha.aLaDerecha())
+        assert.equals(izquierda, derecha.opuesta())
 
         assert.equals(
             [derecha, arriba, abajo, izquierda],
@@ -18,5 +30,16 @@ describe "estrategia de merodeo" {
             [arriba, derecha, izquierda, abajo],
             merodeo.direccionesAIntentar()
         )
+        assert.equals(false, merodeo.priorizarIzquierda())
+
+        merodeo.registrarMovimiento(arriba)
+        assert.equals(
+            [arriba, derecha, izquierda, abajo],
+            merodeo.direccionesAIntentar()
+        )
+
+        merodeo.reiniciar()
+        assert.equals(derecha, merodeo.direccionPrincipal())
+        assert.equals(true, merodeo.priorizarIzquierda())
     }
 }

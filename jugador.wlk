@@ -11,14 +11,7 @@ object movimientoJugador {
             personaje.position(destino)
             elementosProximos.forEach({ objeto => objeto.interactuar(personaje) })
         }
-        else{
-                    game.say(
-            personaje,
-            "Bloqueado en (" +
-            proximaPos.x().toString() + ", " +
-            proximaPos.y().toString() + ")"
-        )
-        }
+        
     }
 }
 

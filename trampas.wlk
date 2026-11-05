@@ -5,7 +5,7 @@ class Trampa {
     method esAtravesable() = true
     method imagen() = "trampa.png"
     method image() = self.imagen()
-    method interactuar(personaje) {}
+    method interactuar(personaje) 
 }
 
 class TrampaPinchos inherits Trampa {

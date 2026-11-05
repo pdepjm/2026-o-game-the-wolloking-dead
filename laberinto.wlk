@@ -97,6 +97,25 @@ object juegoLaberinto {
         ]
     ]
 
+    const inicializadoresPorTipo = [
+        { posicion => {} },
+        { posicion => self.agregarVisualDelNivel(new Pared(position = posicion)) },
+        { posicion => self.agregarVisualDelNivel(new TrampaPegamento(position = posicion)) },
+        { posicion => self.agregarVisualDelNivel(new TrampaPinchos(position = posicion)) },
+        { posicion =>
+            self.agregarVisualDelNivel(new TrampaTeletransporte(
+                position = posicion,
+                destino = game.at(1, 1)
+            ))
+        },
+        { posicion =>
+            self.agregarVisualDelNivel(new Salida(
+                position = posicion,
+                accionVictoria = { self.avanzarNivel() }
+            ))
+        }
+    ]
+
     method iniciar() {
         game.title("THE MAZE")
         game.height(12)
@@ -165,24 +184,7 @@ object juegoLaberinto {
     }
 
     method agregarElemento(tipo, x, y) {
-        const posicion = game.at(x, y)
-        if (tipo == 1) {
-            self.agregarVisualDelNivel(new Pared(position = posicion))
-        } else if (tipo == 2) {
-            self.agregarVisualDelNivel(new TrampaPegamento(position = posicion))
-        } else if (tipo == 3) {
-            self.agregarVisualDelNivel(new TrampaPinchos(position = posicion))
-        } else if (tipo == 4) {
-            self.agregarVisualDelNivel(new TrampaTeletransporte(
-                position = posicion,
-                destino = game.at(1, 1)
-            ))
-        } else if (tipo == 5) {
-            self.agregarVisualDelNivel(new Salida(
-                position = posicion,
-                accionVictoria = { self.avanzarNivel() }
-            ))
-        }
+        inicializadoresPorTipo.get(tipo).apply(game.at(x, y))
     }
 
     method agregarVisualDelNivel(elemento) {

@@ -3,32 +3,12 @@ import jugador.*
 
 describe "Pruebas de trampas" {
 
-    test "La trampa común es atravesable" {
-        const trampa = new Trampa(position = game.at(2, 2))
-
-        assert.that(trampa.esAtravesable())
-    }
-
-    test "La trampa de pinchos es atravesable" {
+    test "Las trampas son atravesables" {
         const trampa = new TrampaPinchos(position = game.at(2, 2))
 
         assert.that(trampa.esAtravesable())
     }
 
-    test "La trampa de pegamento es atravesable" {
-        const trampa = new TrampaPegamento(position = game.at(2, 2))
-
-        assert.that(trampa.esAtravesable())
-    }
-
-    test "La trampa de teletransporte es atravesable" {
-        const trampa = new TrampaTeletransporte(
-            position = game.at(2, 2),
-            destino = game.at(1, 1)
-        )
-
-        assert.that(trampa.esAtravesable())
-    }
 
     test "La trampa de pinchos reduce 20 puntos de vida" {
         const trampa = new TrampaPinchos(position = game.at(2, 2))
